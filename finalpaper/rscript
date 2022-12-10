@@ -1,0 +1,43 @@
+data <- as.data.frame(X3494playerstats)
+
+mean(data$AVG[data$Temp == "C"])
+mean(data$AVG[data$Temp == "W"]) # means are slightly different
+
+sd(data$AVG[data$Temp == "C"])
+sd(data$AVG[data$Temp == "W"])
+
+hist(data$AVG[data$Temp == "C"]) # approx normal, slightly right skewed
+hist(data$AVG[data$Temp == "W"])
+
+
+
+var.test(data$AVG[Temp == 'C'], data$AVG[Temp == 'W'])
+# don't reject null, therefore variances are considered equal
+
+library("ggplot2")
+qq <- qqnorm(data$AVG[data$Temp == "C"], main = "Q-Q Plot of YPCs for Cool Climate Group")
+qq #line looks linear
+
+qq1 <- qqnorm(data$AVG[data$Temp == "W"], main = "Q-Q Plot of YPCs for Warm Climate Group")
+qq1
+
+set.seed(0)
+shapiro.test(data$AVG[data$Temp == "C"])
+shapiro.test(data$AVG[data$Temp == "W"])
+
+
+Temp <- as.factor(data$Temp)
+ttest <- t.test(AVG ~ Temp, data= data, var.equal = TRUE)
+ttest
+
+# Graphs to add to paper 
+# histogram 
+# qqplot 
+# shapiro-wilk test
+?plot()
+
+hist.c <- hist(data$AVG[data$Temp == "C"], xlab = "Yards per Carry", ylab = "Frequency", main = "Distribution of Yards per Carry (YPC) for players from cool climates", cex = 0.5,col = "cadetblue1")
+hist.c
+
+hist.w <- hist(data$AVG[data$Temp == "W"], xlab = "Yards per Carry", ylab = "Frequency", main = "Distribution of Yards per Carry (YPC) for players from warm climates", cex = 0.5, col = "orange")
+hist.w
